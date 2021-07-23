@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>    
+    <TargetFrameworks>net5.0;netstandard2.1;netcoreapp3.1;netcoreapp3.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>Opticient.EFCore.Repository</PackageId>
+    <Authors>Pankaj Kansodariya</Authors>
+    <Company>Opticient Ltd.</Company>
+    <Copyright>© Opticient Ltd. All rights reserved.</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pankaj-kansodariya/EFCoreRepository</RepositoryUrl>
+    <PackageIcon>LogoIcon.jpg</PackageIcon>
+    <PackageIconUrl />
+    <ApplicationIcon>LogoIcon.ico</ApplicationIcon>
+    <Product>Opticient.EFCore.Repository</Product>
+    <Description>Library to implement Repository pattern. It can be further extended to UnitOfWork pattern. 
+Please use IdRepository If you have Id column as PrimaryKey in all tables, otherwise use Repository
+</Description>
+    <PackageTags>EF Core Repository Pattern, Repository Pattern</PackageTags>
+    <Version>1.0.0</Version>
+    <AssemblyName>Opticient.EFCore.Repository</AssemblyName>
+    <RootNamespace>Opticient.EFCore.Repository</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="F:\Cloud Storages\GoogleDrive\Opticient Ltd\Company Pictures\LogoIcon.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
