@@ -9,7 +9,7 @@
     <Company>Opticient Ltd.</Company>
     <Copyright>© Opticient Ltd. All rights reserved.</Copyright>
     <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl>https://github.com/pankaj-kansodariya/EFCoreRepository</RepositoryUrl>
+    <RepositoryUrl></RepositoryUrl>
     <PackageIcon>LogoIcon.jpg</PackageIcon>
     <PackageIconUrl />
     <ApplicationIcon>LogoIcon.ico</ApplicationIcon>
@@ -21,6 +21,7 @@ Please use IdRepository If you have Id column as PrimaryKey in all tables, other
     <Version>1.0.0</Version>
     <AssemblyName>Opticient.EFCore.Repository</AssemblyName>
     <RootNamespace>Opticient.EFCore.Repository</RootNamespace>
+    <PackageReleaseNotes>First Version with IdRepository</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
