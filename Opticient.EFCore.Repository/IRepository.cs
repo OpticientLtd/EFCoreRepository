@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Opticient.EFCore.Repository
 {
-    public interface IRepository<TEntity, TKey> where TEntity : class
+    public interface IRepository<TEntity, TKey> : IDisposable
+        where TEntity : class
     {
         Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);

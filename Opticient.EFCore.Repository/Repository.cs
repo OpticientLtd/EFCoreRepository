@@ -14,24 +14,26 @@ namespace Opticient.EFCore.Repository
     {
         protected readonly DbContext dbContext;
         private readonly DbSet<TEntity> _dbSet;
+        private bool disposedValue = false;
+
         public Repository(DbContext dbContext)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _dbSet = this.dbContext.Set<TEntity>();
         }
-        public async Task AddAsync(TEntity entity,
+        public virtual async Task AddAsync(TEntity entity,
             CancellationToken cancellationToken = default)
         {
             await _dbSet.AddAsync(entity, cancellationToken);
         }
 
-        public async Task AddRangeAsync(IEnumerable<TEntity> entities,
+        public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities,
             CancellationToken cancellationToken = default)
         {
             await _dbSet.AddRangeAsync(entities, cancellationToken);
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate = null,
              CancellationToken cancellationToken = default)
         {
             if (predicate == null)
@@ -40,7 +42,7 @@ namespace Opticient.EFCore.Repository
                 return await _dbSet.AnyAsync(predicate, cancellationToken);
         }
 
-        public async Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate,
+        public virtual async Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate,
              CancellationToken cancellationToken = default)
         {
             if (predicate == null)
@@ -49,7 +51,7 @@ namespace Opticient.EFCore.Repository
             return await _dbSet.AllAsync(predicate, cancellationToken);
         }
 
-        public async Task<bool> ContainsAsync(TEntity entity,
+        public virtual async Task<bool> ContainsAsync(TEntity entity,
              CancellationToken cancellationToken = default)
         {
             if (entity == null)
@@ -57,7 +59,7 @@ namespace Opticient.EFCore.Repository
 
             return await _dbSet.ContainsAsync(entity, cancellationToken);
         }
-        public async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate = null,
              CancellationToken cancellationToken = default)
         {
             if (predicate == null)
@@ -66,7 +68,7 @@ namespace Opticient.EFCore.Repository
                 return await _dbSet.LongCountAsync(predicate, cancellationToken);
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             CancellationToken cancellationToken = default)
         {
@@ -80,7 +82,7 @@ namespace Opticient.EFCore.Repository
                 return await orderBy(query).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             CancellationToken cancellationToken = default)
         {
@@ -94,7 +96,7 @@ namespace Opticient.EFCore.Repository
                 return await orderBy(query).LastOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             CancellationToken cancellationToken = default)
         {
@@ -107,13 +109,13 @@ namespace Opticient.EFCore.Repository
             else
                 return await orderBy(query).SingleOrDefaultAsync(cancellationToken);
         }
-        public async Task ForEachAsync(Action<TEntity> action, CancellationToken cancellationToken)
+        public virtual async Task ForEachAsync(Action<TEntity> action, CancellationToken cancellationToken)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
             await _dbSet.ForEachAsync(action, cancellationToken);
         }
-        public async Task<IEnumerable<TEntity>> GetAllAsync(int skipRecords = 0,
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skipRecords = 0,
             int returnRecords = int.MaxValue,
             Expression<Func<TEntity, bool>> predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -137,24 +139,24 @@ namespace Opticient.EFCore.Repository
                 return await orderBy(query).Skip(skipRecords).Take(returnRecords).ToArrayAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetAsync(TKey primaryKeyId, CancellationToken cancellationToken = default)
+        public virtual async Task<TEntity> GetAsync(TKey primaryKeyId, CancellationToken cancellationToken = default)
         {
             return await _dbSet.FindAsync(new object[] { primaryKeyId }, cancellationToken);
         }
 
-        public void Remove(TEntity entity)
+        public virtual void Remove(TEntity entity)
         {
             _dbSet.Remove(entity);
         }
 
-        public async Task RemoveAsync(TKey primaryKeyId, CancellationToken cancellationToken = default)
+        public virtual async Task RemoveAsync(TKey primaryKeyId, CancellationToken cancellationToken = default)
         {
             var entity = await this.GetAsync(primaryKeyId, cancellationToken);
             if (entity != null)
                 this.Remove(entity);
         }
 
-        public async Task<decimal?> SumAsync(Expression<Func<TEntity, decimal?>> sumPredicate,
+        public virtual async Task<decimal?> SumAsync(Expression<Func<TEntity, decimal?>> sumPredicate,
             Expression<Func<TEntity, bool>> filterPredicate = null,
             CancellationToken cancellationToken = default)
         {
@@ -166,6 +168,35 @@ namespace Opticient.EFCore.Repository
             else
                 return await _dbSet.Where(filterPredicate).SumAsync(sumPredicate, cancellationToken);
 
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~Repository()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
