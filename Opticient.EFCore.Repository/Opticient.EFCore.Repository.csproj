@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0</TargetFrameworks>
+		<TargetFrameworks>net10.0</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageId>Opticient.EFCore.Repository</PackageId>
 		<Authors>Pankaj Kansodariya</Authors>
 		<Company>Opticient Ltd.</Company>
 		<Copyright>© Opticient Ltd. All rights reserved.</Copyright>
-		<PackageProjectUrl></PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/OpticientLtd/EFCoreRepository</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/OpticientLtd/EFCoreRepository</RepositoryUrl>
 		<PackageIcon>LogoIcon.jpg</PackageIcon>
 		<PackageIconUrl />
@@ -18,32 +18,37 @@
 			Library to implement Repository pattern. It can be further extended to UnitOfWork pattern.
 		</Description>
 		<PackageTags>EF Core Repository Pattern, Repository Pattern</PackageTags>
-		<Version>2.0.0</Version>
+		<Version>3.0.0</Version>
 		<AssemblyName>Opticient.EFCore.Repository</AssemblyName>
 		<RootNamespace>Opticient.EFCore.Repository</RootNamespace>
 		<PackageReleaseNotes>Separate Repository for Read</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Title>EntityFrameworkCore Repository</Title>
 		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants />
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|AnyCPU'">
+	  <WarningLevel>6</WarningLevel>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|AnyCPU'">
+	  <WarningLevel>6</WarningLevel>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="F:\Cloud Storages\GoogleDrive\Opticient Ltd\Company Pictures\LogoIcon.jpg">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
+		<!-- Include README.md from the parent folder -->
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="LogoIcon.ico" Pack="true" PackagePath="\" />
+		<None Include="LogoIcon.jpg" Pack="true" PackagePath="\" />
+	</ItemGroup>	
 
 </Project>

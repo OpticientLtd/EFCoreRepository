@@ -1,12 +1,13 @@
-﻿namespace Opticient.EFCore.Repository.Abstract;
+﻿using Opticient.EFCore.Repository.Interfaces.Entities;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using Opticient.EFCore.Repository.Interfaces;
+namespace Opticient.EFCore.Repository.Abstract.Entities;
 
-public abstract class DbIdEntity<TKey>
-    : IDbIdEntity<TKey>
+/// <inheritdoc />
+public abstract class IdEntity<TKey>
+    : EntityBase, IIdEntity<TKey>
 {
     [Required]
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

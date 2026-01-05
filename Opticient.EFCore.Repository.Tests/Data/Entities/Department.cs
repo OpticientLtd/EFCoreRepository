@@ -1,9 +1,10 @@
-﻿namespace Opticient.EFCore.Repository.Tests.Data.Entities;
+﻿
+using Opticient.EFCore.Repository.Abstract.Entities;
 
-using Opticient.EFCore.Repository.Abstract;
+namespace Opticient.EFCore.Repository.Tests.Data.Entities;
 
-internal class Department : DbIdEntity<int>
+public class Department : IdEntity<int>
 {
     public string Name { get; set; }
-    public virtual ICollection<Employee> Employees { get; } = new List<Employee>();
+    public virtual ICollection<Employee> Employees { get; } = [];
 }

@@ -1,6 +1,4 @@
-﻿namespace Opticient.EFCore.Repository.Tests;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,14 +6,15 @@ using Opticient.EFCore.Repository.Tests.Data;
 using Opticient.EFCore.Repository.Tests.Data.Entities;
 using Opticient.EFCore.Repository.Tests.Repositories;
 
+namespace Opticient.EFCore.Repository.Tests;
+
 [TestClass]
-public class RepositoryTests : UnitTestBase
+public class IdEntityRepositoryTests : UnitTestBase
 {
-    private readonly IEmployeeRepository _repository;
     private readonly DemoDbContext _demoDbContext;
-    public RepositoryTests()
+    public IdEntityRepositoryTests()
     {
-        _repository = base.ServiceProvider.GetRequiredService<IEmployeeRepository>();
+        EmployeeRepository = base.ServiceProvider.GetRequiredService<IEmployeeRepository>();
         _demoDbContext = base.ServiceProvider.GetRequiredService<DemoDbContext>();
     }
 
@@ -25,7 +24,7 @@ public class RepositoryTests : UnitTestBase
         int id = InitialTestData.InitialEmployees.Count() + 1;
 
         // Check doesn't exist
-        var entity = await _repository.GetAsync(true, id);
+        var entity = await EmployeeRepository.GetAsync(true, id);
         entity.Should().BeNull();
         entity = new Data.Entities.Employee
         {
@@ -36,12 +35,12 @@ public class RepositoryTests : UnitTestBase
         };
 
         // Add
-        await _repository.AddAsync(entity);
+        await EmployeeRepository.AddAsync(entity);
         var rows = await _demoDbContext.SaveChangesAsync();
         rows.Should().Be(1);
 
         // Check added successfully
-        entity = await _repository.GetAsync(false, id);
+        entity = await EmployeeRepository.GetAsync(false, id);
         entity.Should().NotBeNull();
         entity.Id.Should().Be(id);
 
@@ -52,18 +51,20 @@ public class RepositoryTests : UnitTestBase
         rows.Should().Be(1);
 
         // Check updated successfully
-        entity = await _repository.GetAsync(false, id);
+        entity = await EmployeeRepository.GetAsync(false, id);
         entity.Should().NotBeNull();
         entity.Name.Should().Be(updatedName);
 
         // Remove
-        await _repository.RemoveAsync(id);
+        await EmployeeRepository.RemoveAsync(id);
 
         // Check removed successfully
-        entity = await _repository.GetAsync(false, id);
+        entity = await EmployeeRepository.GetAsync(false, id);
         entity.Should().NotBeNull();
 
     }
+
+    #region "U P D A T E"
 
     [TestMethod]
     public async Task Update_ValidValue_ShouldbeUpdated()
@@ -77,32 +78,53 @@ public class RepositoryTests : UnitTestBase
             DepartmentId = employee.DepartmentId,
             Salary = employee.Salary
         };
-        _repository.Update(entity);
+        EmployeeRepository.Update(entity);
         var rows = await _demoDbContext.SaveChangesAsync();
         rows.Should().Be(1);
     }
+
+    #endregion "U P D A T E"
+
+    #region "R E M O V E"
 
     [TestMethod]
     public async Task Remove_ValidEntity_ShouldbeDeleted()
     {
         var id = InitialTestData.InitialEmployees.Last().Id;
-        var entity = await _repository.GetAsync(false, id);
-        _repository.Remove(entity);
+        var entity = await EmployeeRepository.GetAsync(false, id);
+        EmployeeRepository.Remove(entity);
         var rows = await _demoDbContext.SaveChangesAsync();
         rows.Should().Be(1);
-        entity = await _repository.GetAsync(false, id);
+        entity = await EmployeeRepository.GetAsync(false, id);
         entity.Should().BeNull();
     }
+
+    #endregion "R E M O V E"
+
+    #region "A D D   R A N G E"
 
     [TestMethod]
     public async Task AddRange_ValidEntities_ShouldbeAAdded()
     {
         var id = InitialTestData.InitialEmployees.Last().Id;
-        var entity = await _repository.GetAsync(false, id);
-        _repository.Remove(entity);
+        var entity = await EmployeeRepository.GetAsync(false, id);
+        EmployeeRepository.Remove(entity);
         var rows = await _demoDbContext.SaveChangesAsync();
         rows.Should().Be(1);
-        entity = await _repository.GetAsync(false, id);
+        entity = await EmployeeRepository.GetAsync(false, id);
         entity.Should().BeNull();
     }
+
+    #endregion "A D D   R A N G E"
+
+    #region "I D   E X I S T S"
+
+    [TestMethod]
+    public async Task IdExists_ValidFilter_ShouldReturnTrue()
+    {
+        var result = await EmployeeRepository.IdExistsAsync(1);
+        result.Should().Be(InitialTestData.InitialEmployees.Any(e => e.Id == 1));
+    }
+
+    #endregion
 }

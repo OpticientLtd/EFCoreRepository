@@ -1,10 +1,11 @@
-﻿namespace Opticient.EFCore.Repository.Tests.Data;
-
+﻿
 using Microsoft.EntityFrameworkCore;
 
 using Opticient.EFCore.Repository.Tests.Data.Entities;
 
-internal class DemoDbContext : DbContext
+namespace Opticient.EFCore.Repository.Tests.Data;
+
+public class DemoDbContext : DbContext
 {
     public virtual DbSet<Employee> Employees { get; set; }
     public virtual DbSet<Department> Departments { get; set; }

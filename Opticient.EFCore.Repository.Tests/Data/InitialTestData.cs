@@ -1,7 +1,6 @@
-﻿namespace Opticient.EFCore.Repository.Tests.Data;
-using System.Collections.Generic;
+﻿using Opticient.EFCore.Repository.Tests.Data.Entities;
 
-using Opticient.EFCore.Repository.Tests.Data.Entities;
+namespace Opticient.EFCore.Repository.Tests.Data;
 
 internal static class InitialTestData
 {

@@ -1,8 +1,9 @@
-﻿namespace Opticient.EFCore.Repository.Tests.Data.Entities;
+﻿
+using Opticient.EFCore.Repository.Abstract.Entities;
 
-using Opticient.EFCore.Repository.Abstract;
+namespace Opticient.EFCore.Repository.Tests.Data.Entities;
 
-internal class Employee : DbIdEntity<int>
+public class Employee : IdEntity<int>
 {
     public string Name { get; set; }
     public int DepartmentId { get; set; }

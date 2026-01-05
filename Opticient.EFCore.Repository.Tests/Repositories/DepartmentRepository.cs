@@ -1,12 +1,14 @@
-﻿namespace Opticient.EFCore.Repository.Tests.Repositories;
+﻿using Microsoft.Extensions.Logging;
 
-using Opticient.EFCore.Repository.Abstract;
+using Opticient.EFCore.Repository.Abstract.Repositories;
 using Opticient.EFCore.Repository.Tests.Data;
 using Opticient.EFCore.Repository.Tests.Data.Entities;
 
-internal class DepartmentRepository : Repository<Department, int>, IDepartmentRepository
+namespace Opticient.EFCore.Repository.Tests.Repositories;
+
+public class DepartmentRepository : IdEntityRepository<Department, int>, IDepartmentRepository
 {
-    public DepartmentRepository(DemoDbContext dbContext) : base(dbContext)
+    public DepartmentRepository(DemoDbContext dbContext, ILogger<DepartmentRepository> logger) : base(dbContext, logger)
     {
     }
 }
